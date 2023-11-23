@@ -3,6 +3,7 @@ package com.jwt.jwtAuthentication.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +21,7 @@ import com.jwt.jwtAuthentication.service.CustomerDetailsService;
 public class JwtController {
 	
 	@Autowired
-	CustomerDetailsService customerDetailsService;
+	private CustomerDetailsService customerDetailsService;
 	
 	
 	@Autowired
@@ -40,24 +41,27 @@ public class JwtController {
 	}
 	
 	@PostMapping("/token")
-	public ResponseEntity<String> generateToken(@RequestBody JwtRequest jwt) throws Exception{
+	public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwt) throws Exception{
 		
 		System.out.println(jwt);
 		try {
 			
-			this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwt.getUserName(), jwt.getPassword()));
+			this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwt.getusername(), jwt.getPassword()));
 			
 		}catch(UsernameNotFoundException e) {
 			e.printStackTrace();
 			throw new Exception("Bad Credentials");
+		}catch(BadCredentialsException e) {
+			e.printStackTrace();
+			throw new Exception("Bad Credentials");
 		}
 		
-		UserDetails userDetails=this.customerDetailsService.loadUserByUsername(jwt.getUserName());
+		UserDetails userDetails=this.customerDetailsService.loadUserByUsername(jwt.getusername());
 		
 		String token=this.jwtUtil.generateToken(userDetails);
 		System.out.println("JWT "+token);
 		
-		return ResponseEntity.ok(new JwtReponse().getToken());
+		return ResponseEntity.ok(new JwtReponse(token));
 		
 	}
 

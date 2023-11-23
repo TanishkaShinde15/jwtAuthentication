@@ -1,23 +1,23 @@
 package com.jwt.jwtAuthentication.model;
 
 public class JwtRequest {
-	private String userName;
+	private String username;
 	private String password;
 	
 	public JwtRequest() {
 		
 	}
 	
-	public JwtRequest(String userName, String password) {
+	public JwtRequest(String username, String password) {
 		super();
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 	}
-	public String getUserName() {
-		return userName;
+	public String getusername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setusername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -28,7 +28,7 @@ public class JwtRequest {
 
 	@Override
 	public String toString() {
-		return "Jwt [userName=" + userName + ", password=" + password + "]";
+		return "Jwt [username=" + username + ", password=" + password + "]";
 	}
 	
 	

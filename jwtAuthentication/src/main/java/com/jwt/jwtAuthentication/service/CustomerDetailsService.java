@@ -19,7 +19,8 @@ public class CustomerDetailsService implements UserDetailsService {
 			return new User("Pallavi", "Pallavi#18", new ArrayList<>());
 		}
 		else {
-			throw new UsernameNotFoundException(username);
+			
+			throw new UsernameNotFoundException("user not found");
 		}
 		
 	}
